@@ -1,11 +1,21 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGetArticles } from "../../hooks/useGetArticles";
+import { useInView } from "react-intersection-observer";
 import noImage from "../assets/no-image.png";
 
 function Content() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetArticles("business");
   const articles = data?.pages.flatMap((page) => page.articles) || [];
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     articles.length > 0 && (
@@ -38,6 +48,11 @@ function Content() {
             </article>
           ))}
         </section>
+        {hasNextPage && (
+          <p ref={ref} className="mt-2 text-center text-sm">
+            더보기
+          </p>
+        )}
       </div>
     )
   );
