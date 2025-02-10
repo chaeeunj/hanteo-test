@@ -50,10 +50,14 @@ function Banner({ items }: BannerProps) {
         {extendedItems.map((item, idx) => (
           <div
             key={idx}
-            className="h-fit w-full flex-shrink-0 cursor-pointer rounded-lg bg-white shadow-md"
+            className="h-[180px] w-full flex-shrink-0 cursor-pointer rounded-lg bg-white shadow-md"
           >
             <Link to={item.link} target="_blank" rel="noopener noreferrer">
-              <img src={item.img} alt={item.title} className="rounded-t-lg" />
+              <img
+                src={item.img}
+                alt={item.title}
+                className="h-[130px] rounded-t-lg"
+              />
               <div className="flex items-center justify-between p-3">
                 <h3 className="truncate text-sm font-bold">{item.title}</h3>
                 <span className="rounded-2xl border border-red-400 px-2 py-1 text-xs font-semibold text-red-400">
