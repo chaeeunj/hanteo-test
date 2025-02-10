@@ -74,7 +74,7 @@ function Banner({ items }: BannerProps) {
           {items.map((_, idx) => (
             <div
               key={idx}
-              className={`h-2 w-2 cursor-pointer rounded-full transition-all ${current % items.length === idx ? "bg-red-300" : "bg-gray-300"}`}
+              className={`h-2 w-2 cursor-pointer rounded-full transition-all ${current - 1 === idx ? "bg-red-300" : "bg-gray-300"}`}
             />
           ))}
         </div>
