@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { carouselItemsType } from "../../pages/Home";
+import { CarouselItems } from "../../types/banner";
 
 interface BannerProps {
-  items: carouselItemsType[];
+  items: CarouselItems[];
 }
 
 function Banner({ items }: BannerProps) {
@@ -11,7 +11,7 @@ function Banner({ items }: BannerProps) {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 무한루프처럼 보이기 위해 처음에 마지막, 마지막에 첫 이미지 항목 복제)
+  // 무한루프처럼 보이기 위해 처음에 마지막, 마지막에 첫 이미지 항목 복제
   const extendedItems = [items[items.length - 1], ...items, items[0]];
 
   const slideNext = () => setCurrent((prev) => prev + 1);
