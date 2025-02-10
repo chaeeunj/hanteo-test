@@ -2,21 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useGetArticles } from "../../hooks/useGetArticles";
 import { useInView } from "react-intersection-observer";
+import { matchCategory } from "../../constants/content";
 import noImage from "../assets/no-image.png";
-
-interface MatchCategory {
-  path: string;
-  category: string;
-}
-
-const matchCategory: MatchCategory[] = [
-  { path: "/", category: "business" },
-  { path: "/whook", category: "entertainment" },
-  { path: "/event", category: "general" },
-  { path: "/news", category: "health" },
-  { path: "/store", category: "science" },
-  { path: "/charging-station", category: "technology" },
-];
 
 function Content() {
   const { pathname } = useLocation();
@@ -43,7 +30,7 @@ function Content() {
 
   return (
     articles.length > 0 && (
-      <div className="mt-4 h-full max-w-[425px] bg-slate-300 p-4">
+      <div className="h-full max-w-[425px] bg-slate-300 p-4">
         <h1 className="mb-4 font-semibold">📰 {category} 뉴스 목록</h1>
         <section className="flex flex-col gap-4">
           {articles.map((article, idx) => (
