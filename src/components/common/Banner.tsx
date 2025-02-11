@@ -88,7 +88,7 @@ function Banner({ items }: BannerProps) {
         onTouchMove={onDragMove}
         onTouchEnd={onDragEnd}
       >
-        {extendedItems.map((item, idx) => (
+        {extendedItems.map((item, idx: number) => (
           <div
             key={idx}
             onDragStart={(e) => e.preventDefault()}
