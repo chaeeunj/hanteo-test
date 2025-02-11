@@ -3,7 +3,7 @@ import { StoreUser, StoreItems } from "../types/store";
 export const storeUser: StoreUser = {
   name: "chae92",
   coin: 140000,
-};
+} as const;
 
 export const storeItems: StoreItems[] = [
   { itemName: "Whosfan 골드 투표권 X 25", coin: 615 },
@@ -14,4 +14,4 @@ export const storeItems: StoreItems[] = [
   { itemName: "Whosfan 골드 투표권 X 10", coin: 155 },
   { itemName: "Whosfan 골드 투표권 X 5", coin: 80 },
   { itemName: "Whosfan 골드 투표권 X 1", coin: 15 },
-];
+] as const;
