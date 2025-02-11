@@ -1,11 +1,11 @@
-import { StoreUser, StoreItems } from "../types/store";
+import { StoreUser, Items } from "../types/store";
 
 export const storeUser: StoreUser = {
   name: "chae92",
   coin: 140000,
 } as const;
 
-export const storeItems: StoreItems[] = [
+export const storeItems: Items[] = [
   { itemName: "Whosfan 골드 투표권 X 25", coin: 615 },
   { itemName: "Whosfan 골드 투표권 X 10", coin: 245 },
   { itemName: "Whosfan 골드 투표권 X 5", coin: 130 },

@@ -52,7 +52,7 @@ function Banner({ items }: BannerProps) {
     containerRef.current.style.transition = "none"; // 드래그 중에는 트랜지션 비활성화
   };
 
-  const onDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
+  const onDragEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
 
