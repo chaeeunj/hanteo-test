@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useGetArticles } from "../../hooks/useGetArticles";
 import { useInView } from "react-intersection-observer";
+import { Article } from "../../types/news";
 import { matchCategory } from "../../constants/content";
 import noImage from "../assets/no-image.png";
 
@@ -33,7 +34,7 @@ function Content() {
       <div className="h-full max-w-[425px] bg-slate-300 p-4">
         <h1 className="mb-4 font-semibold">📰 {category} 뉴스 목록</h1>
         <section className="flex flex-col gap-4">
-          {articles.map((article, idx) => (
+          {articles.map((article: Article, idx: number) => (
             <article key={idx}>
               <Link
                 to={article.url}

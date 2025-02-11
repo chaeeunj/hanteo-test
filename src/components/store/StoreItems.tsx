@@ -8,7 +8,7 @@ interface StoreItemsProps {
 function StoreItems({ items }: StoreItemsProps) {
   return (
     <main className="flex h-full w-full flex-col gap-3 px-4 pb-3">
-      {items?.map((item, idx) => (
+      {items?.map((item: Items, idx: number) => (
         <article
           key={idx}
           className="flex w-full items-center gap-3 border-b border-red-100 pb-3 pt-2"
