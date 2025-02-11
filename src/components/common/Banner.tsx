@@ -10,6 +10,9 @@ function Banner({ items }: BannerProps) {
   const [current, setCurrent] = useState<number>(1);
   const [isTransitioning, setIsTransitioning] = useState<boolean>(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const startX = useRef<number>(0);
+  const moveX = useRef<number>(0);
+  const isDragging = useRef<boolean>(false);
 
   // 무한루프처럼 보이기 위해 처음에 마지막, 마지막에 첫 이미지 항목 복제
   const extendedItems = [items[items.length - 1], ...items, items[0]];
@@ -24,15 +27,46 @@ function Banner({ items }: BannerProps) {
   // 무한 루프처럼 보이도록 트랜지션 종료 시 처리
   const handleTransitionEnd = () => {
     if (current === items.length + 1) {
-      // 맨 끝(가짜 첫 번째)에서 진짜 첫 번째로 순간 이동
       setIsTransitioning(false);
       setCurrent(1);
       setTimeout(() => setIsTransitioning(true), 50);
     } else if (current === 0) {
-      // 맨 앞(가짜 마지막)에서 진짜 마지막으로 순간 이동
       setIsTransitioning(false);
       setCurrent(items.length);
       setTimeout(() => setIsTransitioning(true), 50);
+    }
+  };
+
+  const onDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    isDragging.current = true;
+    startX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+    moveX.current = startX.current;
+  };
+
+  const onDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging.current || !containerRef.current) return;
+    moveX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+
+    const diff = moveX.current - startX.current;
+    containerRef.current.style.transform = `translateX(calc(${-current * (380 + 12)}px + ${diff}px))`;
+    containerRef.current.style.transition = "none"; // 드래그 중에는 트랜지션 비활성화
+  };
+
+  const onDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+
+    const diff = moveX.current - startX.current;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0)
+        setCurrent((prev) => prev - 1); // 왼쪽 드래그 -> 이전 슬라이드로 이동
+      else setCurrent((prev) => prev + 1);
+    }
+
+    // 트랜지션 다시 활성화
+    if (containerRef.current) {
+      containerRef.current.style.transition = "transform 0.5s ease-out";
     }
   };
 
@@ -46,10 +80,18 @@ function Banner({ items }: BannerProps) {
           transition: isTransitioning ? "transform 0.5s ease-out" : "none",
         }}
         onTransitionEnd={handleTransitionEnd} // 트랜지션 끝났을 때 실행
+        onMouseDown={onDragStart}
+        onMouseMove={onDragMove}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        onTouchStart={onDragStart}
+        onTouchMove={onDragMove}
+        onTouchEnd={onDragEnd}
       >
         {extendedItems.map((item, idx) => (
           <div
             key={idx}
+            onDragStart={(e) => e.preventDefault()}
             className="h-[180px] w-full flex-shrink-0 cursor-pointer rounded-lg bg-white shadow-md"
           >
             <Link to={item.link} target="_blank" rel="noopener noreferrer">
@@ -74,6 +116,7 @@ function Banner({ items }: BannerProps) {
           {items.map((_, idx) => (
             <div
               key={idx}
+              onClick={() => setCurrent(idx + 1)}
               className={`h-2 w-2 cursor-pointer rounded-full transition-all ${current - 1 === idx ? "bg-red-300" : "bg-gray-300"}`}
             />
           ))}
